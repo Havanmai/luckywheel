@@ -67,7 +67,7 @@ elem.addEventListener('resultSpin', (e) =>{
             title: 'Chúc mừng bạn đã quay vào ô số',
             html: `
             <div class="image">
-                <img src="../assets/box.png"/>
+                <img src="assets/box.png"/>
             </div>
             <div style="color:red;  font-family: 'FS PFBeauSansPro'; font-weight:bold; font-size:135pt; text-align:center">${e.detail.score}</div>
             <div clasa="text-center">
