@@ -51,18 +51,16 @@ var wheel_arr = [{src:'assets/item_wheel_10.png', highlight:'assets/item_wheel_1
 				{src:'assets/item_wheel_07.png', highlight:'assets/item_wheel_07_h.png', color:'#475C70', regX:1, regY:223, point:7, type:1, percent:1},
 				{src:'assets/item_wheel_08.png', highlight:'assets/item_wheel_08_h.png', color:'#DA2027', regX:1, regY:223, point:8, type:1, percent:1},
 				{src:'assets/item_wheel_09.png', highlight:'assets/item_wheel_09_h.png', color:'#475C70', regX:1, regY:223, point:9, type:1, percent:1},
-				
-				
 				];
 
 //second wheel segments
 var secondWheel = true; //option to display second wheel; (true/false)
-var wheelSecond_arr = [{src:'assets/item_wheel_inner_01.png', highlight:'assets/item_wheel_inner_01_h.png', regX:0, regY:100, mutiply:0, percent:10},
-					{src:'assets/item_wheel_inner_06.png', highlight:'assets/item_wheel_inner_06_h.png', regX:0, regY:100, mutiply:2, percent:10},
-					{src:'assets/item_wheel_inner_03.png', highlight:'assets/item_wheel_inner_05_h.png', regX:0, regY:100, mutiply:1, percent:10},
-					{src:'assets/item_wheel_inner_04.png', highlight:'assets/item_wheel_inner_04_h.png', regX:0, regY:100, mutiply:0, percent:10},
-					{src:'assets/item_wheel_inner_02.png', highlight:'assets/item_wheel_inner_02_h.png', regX:0, regY:100, mutiply:2, percent:10},
-					{src:'assets/item_wheel_inner_05.png', highlight:'assets/item_wheel_inner_05_h.png', regX:0, regY:100, mutiply:1, percent:10}];
+var wheelSecond_arr = [{src:'assets/item_wheel_inner_01.png', highlight:'assets/item_wheel_inner_01_h.png', regX:0, regY:100, mutiply:0, percent:1},
+					{src:'assets/item_wheel_inner_06.png', highlight:'assets/item_wheel_inner_06_h.png', regX:0, regY:100, mutiply:2, percent:1},
+					{src:'assets/item_wheel_inner_03.png', highlight:'assets/item_wheel_inner_05_h.png', regX:0, regY:100, mutiply:1, percent:1},
+					{src:'assets/item_wheel_inner_04.png', highlight:'assets/item_wheel_inner_04_h.png', regX:0, regY:100, mutiply:0, percent:1},
+					{src:'assets/item_wheel_inner_02.png', highlight:'assets/item_wheel_inner_02_h.png', regX:0, regY:100, mutiply:2, percent:1},
+					{src:'assets/item_wheel_inner_05.png', highlight:'assets/item_wheel_inner_05_h.png', regX:0, regY:100, mutiply:1, percent:1}];
 
 var resultTitleText = 'GAME OVER'; //result title text
 var resultScoreText = '[NUMBER]PTS'; //result score text
@@ -90,13 +88,14 @@ var gameData = {spinning:false, stopped:true, rotateEaseNum:0, rotateInnerNum:0,
 var betData = {interval:null, timer:0, timerMax:300, timerMin:10, betpoint:0, betNumber:0, betNumberPlus:0};
 var lightData = {side:true, num:0};
 var arrowData = {move:true, speed:0, rotatation:0, count:0};
-
+var ArrayList=[];
 /*!
  * 
  * GAME BUTTONS - This is the function that runs to setup button event
  * 
  */
 function buildGameButton(){
+	
 	gameData.physicsEngine = true;
 	if(enableFixedResult){
 		gameData.physicsEngine = false;
@@ -104,12 +103,12 @@ function buildGameButton(){
 	
 	if(enablePercentage){
 		createPercentage();
-		getPercent();
 		gameData.physicsEngine = false;	
 	}
 	
 	buttonStart.cursor = "pointer";
 	buttonStart.addEventListener("click", function(evt) {
+		getPercent();
 		playSound('soundClick');
 		startSpinWheel(true);
 		//memberpayment
@@ -247,6 +246,7 @@ function goPage(page){
 			targetContainer = mainContainer;
 			playSound('soundResult');
 			/* resultScoreTxt.text = resultScoreText.replace('[NUMBER]', addCommas(playerData.score)); */
+			console.log("Thống số thắng",playerData.score)
 			const elem = document.querySelector("#canvasHolder");
 			const resultSpin = new CustomEvent('resultSpin', {
 				detail: {
@@ -386,6 +386,8 @@ function stopGame(){
  * SAVE GAME - This is the function that runs to save game
  * 
  */
+
+
 function saveGame(score){
 	if ( typeof toggleScoreboardSave == 'function' ) { 
 		$.scoreData.score = score;
@@ -394,6 +396,19 @@ function saveGame(score){
 		}
 		toggleScoreboardSave(true);
 	}
+   
+	ArrayList.push(score.toString());
+   
+	if(ArrayList.length<=5){
+		let setarray=JSON.stringify(ArrayList);
+		localStorage.setItem('listArray',setarray);
+	}else{
+		let item=ArrayList.shift();
+		let setarray=JSON.stringify(ArrayList);
+		localStorage.setItem('listArray',setarray);
+	}
+	
+	
 
 	/*$.ajax({
       type: "POST",
@@ -933,10 +948,11 @@ function startSpinWheelBig(){
  * 
  */
 function startSpinWheelInner(){
+	console.log("secondWheel",secondWheel);
 	if(!secondWheel){
 		return;	
 	}
-	
+	console.log("hshshshs",gameData.fixedInnerRotate)
 	wheelInnerContainer.rotation = 0;
 	var wheelInnerRadius = 360 / wheelSecond_arr.length;
 	var rotateNum = gameData.fixedInnerRotate;
@@ -947,6 +963,8 @@ function startSpinWheelInner(){
 			rotateNum = Math.floor(Math.random()*wheelSecond_arr.length);
 		}
 	}
+
+	console.log("Vongf quay hangf trontg",rotateNum);
 	var innerNum = rotateNum;
 	if(!gameData.spinDirection){
 		rotateNum = wheelSecond_arr.length - rotateNum;
@@ -964,9 +982,9 @@ function startSpinWheelInner(){
 		toRotate = Math.abs(totalRoundNum + rotateNum);
 	}
 
-	console.log("thông tin vòng quay bên trong ",wheelInnerContainer, totalRound )
 	TweenMax.to(wheelInnerContainer, totalRound, {rotation:toRotate, overwrite:true, ease: Circ.easeOut, onComplete:function(){
 		playSound('soundSelect');
+		console.log("soos been trong", innerNum);
 		gameData.wheelInnerNum = innerNum;
 		$.wheelInner[gameData.wheelInnerNum].visible = true;
 		animateWheelSegment($.wheelInner[gameData.wheelInnerNum], true);
@@ -1017,7 +1035,6 @@ function startSpinWheelInner(){
  * 
  */
 function checkWheelScore(){
-	console.log("Check score", gameData,secondWheel)
 	if(gameData.wheelNum == -1){
 		return;	
 	}
@@ -1065,31 +1082,33 @@ function checkWheelScore(){
 			if(wheelSegmentType == 0){
 				//loss all
 				playSound('soundLossall');
-				/* statusTxt.text = statusText_arr[6]; */
 				animateLights('lose');
 				gameData.spinning = false;
-				/* playerData.score = playerData.bet = 0;
-				TweenMax.to(playerData, 1, {point:playerData.score, overwrite:true, onUpdate:updateStat}); */
 				gameData.shape.style = wheel_arr[gameData.wheelNum].color;
-				
 				checkGameEnd();
 			}else{
-				/* statusTxt.text = statusText_arr[2].replace('[NUMBER]', addCommas(wheelSegmentNumber)); */
 				var speedTween = .5;
 				TweenMax.to(itemStatusBg, speedTween, {overwrite:true, onComplete:function(){
 					playSound('soundTone');
-					/* statusTxt.text = statusText_arr[2].replace('[NUMBER]', addCommas(wheelSegmentNumber)) +' x '+wheelInnerSegmentNumber; */
-					
 					TweenMax.to(itemStatusBg, speedTween, {overwrite:true, onComplete:function(){
 						playSound('soundTone');
 						var winPoint =wheelInnerSegmentNumber.toString().concat(wheelSegmentNumber.toString()) ;
-						console.log("WinPoint",winPoint)
 						if(!gamePlayType){
-							winPoint = winPoint ;
+							winPoint = winPoint.toString() ;
 						}
-						/* statusTxt.text = statusText_arr[3].replace('[NUMBER]', addCommas(winPoint)); */
+
+						console.log("WinPoint shhshshs",winPoint)
 						
-						if(winPoint > 0){
+						if((winPoint=="099")||(winPoint=="199")||(winPoint=="299")){
+							playSound('soundLoss');
+							//no win
+							animateLights('lose');
+							if(!gamePlayType){
+								updateStat();
+							}
+							playerData.score = winPoint;
+						}else{
+							
 							//win
 							if(wheelSegmentType == 2){
 								playSound('soundJackpot');
@@ -1102,14 +1121,6 @@ function checkWheelScore(){
 							
 							animateLights('win');
 							TweenMax.to(playerData, 1, {point:playerData.score, overwrite:true, onUpdate:updateStat});
-						}else{
-							playSound('soundLoss');
-							//no win
-							/* statusTxt.text = statusText_arr[4]; */
-							animateLights('lose');
-							if(!gamePlayType){
-								updateStat();
-							}
 						}
 						
 						gameData.spinning = false;
@@ -1120,9 +1131,11 @@ function checkWheelScore(){
 		}else{
 			if(wheelSegmentType == 0){
 				//loss all
+				var winPoint =wheelInnerSegmentNumber.toString().concat(wheelSegmentNumber.toString()) ;
 				playSound('soundLossall');
 				/* statusTxt.text = statusText_arr[6]; */
 				animateLights('lose');
+				playerData.score = winPoint;
 				/* playerData.score = playerData.bet = 0;
 				TweenMax.to(playerData, 1, {point:playerData.score, overwrite:true, onUpdate:updateStat}); */
 				gameData.shape.style = wheel_arr[gameData.wheelNum].color;
@@ -1131,13 +1144,22 @@ function checkWheelScore(){
 				checkGameEnd();
 			}else{
 				var winPoint =wheelInnerSegmentNumber.toString().concat(wheelSegmentNumber.toString()) ;
-						console.log("WinPoint",winPoint)
+				console.log("WinPoint",winPoint)
 				if(!gamePlayType){
-					winPoint = winPoint;
+					winPoint = winPoint.toString();
 				}
 				/* statusTxt.text = statusText_arr[3].replace('[NUMBER]', addCommas(winPoint)); */
 				
-				if(winPoint > 0){
+				if((winPoint=="099")||(winPoint=="199")||(winPoint=="299")){
+					//no win
+					playSound('soundLoss');
+					/* playerData.score = winPoint; */
+					/* statusTxt.text = statusText_arr[4]; */
+					animateLights('lose');	
+					if(!gamePlayType){
+						updateStat();
+					}
+				}else{
 					console.log(winPoint)
 					//win
 					if(wheelSegmentType == 2){
@@ -1152,14 +1174,7 @@ function checkWheelScore(){
 					
 					animateLights('win');
 					TweenMax.to(playerData, 1, {point:playerData.score, overwrite:true, onUpdate:updateStat});
-				}else{
-					//no win
-					playSound('soundLoss');
-					/* statusTxt.text = statusText_arr[4]; */
-					animateLights('lose');	
-					if(!gamePlayType){
-						updateStat();
-					}
+					
 				}
 				
 				gameData.spinning = false;
@@ -1379,7 +1394,7 @@ function createPercentage(){
 	
 	//inner
 	for(var n=0; n<wheelSecond_arr.length; n++){
-		if(!isNaN(wheelSecond_arr[n].percent)){
+		if(!isNaN(wheelSecond_arr[n].mutiply)){
 			if(wheelSecond_arr[n].percent > 0){
 				for(var p=0; p<wheelSecond_arr[n].percent; p++){
 					gameData.percentageInnerArray.push(n);
@@ -1391,26 +1406,81 @@ function createPercentage(){
 var numberPercentBig=0;
 var numberPercentInner=0;
 function getPercent(){
-	/* var resultArray = [00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,99,100];
-	var shuffleArray=shuffle(resultArray);
-    numberPercentBig=shuffleArray[0]%10;
-	numberPercentInner=shuffleArray[0]%100/10;
-  	console.log("thông tin ",shuffleArray[0]) */
-	/* return shuffleArray[0]; */
+ var resultArray = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","099","0100","199","1100","299","2100"];
+
+	console.log("hshshshsh",JSON.parse(localStorage.getItem('listArray')));
+	if(JSON.parse(localStorage.getItem('listArray'))){
+	ArrayList = JSON.parse(localStorage.getItem('listArray'));
+		for(let i=0; i<ArrayList.length;i++){
+			for(let j=0; j<resultArray.length;j++){
+				if(ArrayList[i]==resultArray[j].toString()){
+                    resultArray.splice(j,1);
+					break;
+				}
+			}
+		}
+      console.log("resrsultArray",resultArray);
+	  var shuffleArray=shuffle(resultArray);
+	  console.log("Số random lần đầu tiên",shuffleArray[0])
+	  if(Number(shuffleArray[0]) < 10){
+		  numberPercentBig=(Number(shuffleArray[0]));
+		  numberPercentInner=0;
+	  }
+	  else if(Number(shuffleArray[0])<99){
+		  numberPercentBig=Number(shuffleArray[0])%10;
+		  numberPercentInner=(Number(shuffleArray[0])/10).toFixed();
+	  }
+	  else if((Number(shuffleArray[0])==99)||(Number(shuffleArray[0])==199)||(Number(shuffleArray[0])==299)){
+		  numberPercentBig=99;
+		  numberPercentInner=(Number(shuffleArray[0])/100).toFixed();
+	  }
+	  else if((Number(shuffleArray[0])==100)||(Number(shuffleArray[0])==1100)||(Number(shuffleArray[0])==2100)){
+		  numberPercentBig=100;
+		  numberPercentInner=(Number(shuffleArray[0])/1000).toFixed();
+	  }
+  
+	  console.log("numberPercentBig",numberPercentBig,numberPercentInner)
+	  
+	  return shuffleArray[0];
+	}else{
+		var shuffleArray=shuffle(resultArray);
+		console.log("Số random lần đầu tiên",shuffleArray[0])
+		if(Number(shuffleArray[0]) < 10){
+			numberPercentBig=(Number(shuffleArray[0]));
+			numberPercentInner=0;
+		}
+		else if(Number(shuffleArray[0])<99){
+			numberPercentBig=Number(shuffleArray[0])%10;
+			numberPercentInner=(Number(shuffleArray[0])/10).toFixed();
+		}
+		else if((Number(shuffleArray[0])==99)||(Number(shuffleArray[0])==199)||(Number(shuffleArray[0])==299)){
+			numberPercentBig=99;
+			numberPercentInner=(Number(shuffleArray[0])/100).toFixed();
+		}
+		else if((Number(shuffleArray[0])==100)||(Number(shuffleArray[0])==1100)||(Number(shuffleArray[0])==2100)){
+			numberPercentBig=100;
+			numberPercentInner=(Number(shuffleArray[0])/1000).toFixed();
+		}
+	
+		console.log("numberPercentBig",numberPercentBig,numberPercentInner)
+		
+		return shuffleArray[0];
+	}
+	
+	
 }
 
 function getResultOnPercent(){
-	/* var bigplace;
+	var bigplace;
 	for(var n=0; n<wheel_arr.length; n++){
 			if(numberPercentBig==wheel_arr[n].point){
+				console.log("numberPercentBig",wheel_arr[n].point,numberPercentBig)
 				bigplace=n;
 				break;
 			}
 		
 	}
-
-     console.log("số ramdom hàng to",bigplace)
-	return bigplace; */
+	return bigplace;
 
 	/*var randomInt = Math.floor(Math.random()*100);
 	var currentPercent = -1;
@@ -1447,8 +1517,8 @@ function getResultOnPercent(){
 		}
 	} */
 
-	shuffle(gameData.percentageArray);
-	return gameData.percentageArray[0];
+	/* shuffle(gameData.percentageArray);
+	return gameData.percentageArray[0]; */
 
 }
 
@@ -1480,19 +1550,20 @@ function getResultOnPercentInner(){
 	shuffle(resultArray);
 	return resultArray[0];*/
 	
-	shuffle(gameData.percentageInnerArray);
-	return gameData.percentageInnerArray[0];
+	/* shuffle(gameData.percentageInnerArray);
+	return gameData.percentageInnerArray[0]; */
 	
-/* 	var innerplace;
+	var innerplace;
+
 	for(var n=0; n<wheelSecond_arr.length; n++){
-			if(numberPercentInner==wheelSecond_arr[n].point){
+			if(numberPercentInner == wheelSecond_arr[n].mutiply){
+				console.log("numberPercentInner",wheelSecond_arr[n].mutiply,numberPercentInner)
 				innerplace=n;
 				break;
 			}
 		
 	}
-	console.log("số ramdom hàng trong ",innerplace)
-   return innerplace; */
+   return innerplace;
 
 }
 

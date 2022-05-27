@@ -25,6 +25,22 @@
   margin-top: 190px!important;
 }
 
+.swal2-input{
+  font-family: 'FS PFBeauSansPro';
+  border: 1px solid #808080!important;
+  background-color: #f1f1f1!important;
+  font-size: 32px!important;
+  color: #000!important;
+}
+
+.swal2-validation-message {
+  font-family: 'FS PFBeauSansPro';
+  color: red!important;
+  font-size: 27px!important;
+  font-weight: 400!important;
+  background-color: #fff!important;
+}
+
 .title{
   font-family: 'FS PFBeauSansPro';
   font-weight:bold; 

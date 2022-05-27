@@ -61,7 +61,7 @@ function buildGameCanvas(){
 	buttonStart = new createjs.Bitmap(loader.getResult('buttonStart'));
 	centerReg(buttonStart);
 	buttonStart.x = canvasW/100 * 50;
-	buttonStart.y = canvasH/100 * 85;
+	buttonStart.y = canvasH/100 * 75;
 	
 	//game
 	bgWheel = new createjs.Bitmap(loader.getResult('bgWheel'));
@@ -72,13 +72,13 @@ function buildGameCanvas(){
 	itemWheelCentre = new createjs.Bitmap(loader.getResult('itemWheelCentre'));
 	centerReg(itemWheelCentre);
 	itemWheel.x =itemWheelCentre.x = wheelOuterContainer.x = wheelInnerContainer.x = wheelPinContainer.x = lightsContainer.x = wheelX - 210;
-	itemWheel.y = itemWheelCentre.y = wheelOuterContainer.y = wheelInnerContainer.y = wheelPinContainer.y = lightsContainer.y = wheelY - 390 ;
+	itemWheel.y = itemWheelCentre.y = wheelOuterContainer.y = wheelInnerContainer.y = wheelPinContainer.y = lightsContainer.y = wheelY - 480 ;
 
 	itemArrow = new createjs.Bitmap(loader.getResult('itemArrow'));
 	itemArrow.regX = 27 ;
 	itemArrow.regY = 14;
 	itemArrow.x = arrowX - 210;
-	itemArrow.y = arrowY - 400;
+	itemArrow.y = arrowY - 500;
 	
 	itemPin = new createjs.Bitmap(loader.getResult('itemPin'));
 	centerReg(itemPin);
