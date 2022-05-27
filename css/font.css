@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro BoldItalic'), url('assets/fonts/FS PFBeauSansPro-BoldItalic.otf') format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro Light'), url('assets/fonts/FS PFBeauSansPro-Light.otf') format("opentype");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro Bbook'), url('assets/fonts/FS PFBeauSansPro-Bbook.otf') format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro SemiBold'), url('assets/fonts/FS PFBeauSansPro-SemiBold.otf') format("opentype");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro Bold'), url('assets/fonts/FS PFBeauSansPro-Bold.otf') format("opentype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro SemiBoldItalic'), url('assets/fonts/FS PFBeauSansPro-SemiBoldItalic.otf') format("opentype");
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro BbookItalic'), url('assets/fonts/FS PFBeauSansPro-BbookItalic.otf') format("opentype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro LightItalic'), url('assets/fonts/FS PFBeauSansPro-LightItalic.otf') format("opentype");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro Italic'), url('assets/fonts/FS PFBeauSansPro-Italic.otf') format("opentype");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'FS PFBeauSansPro';
+    src: local('FS PFBeauSansPro Regular'), url('assets/fonts/FS PFBeauSansPro-Regular.otf') format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+

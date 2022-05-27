@@ -1,0 +1,102 @@
+/* body {
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+/* .info {
+  
+  width: 200px;
+  height: 100px;
+  padding: 1em;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  border-radius: 5px;
+  display: none;
+} */
+.swal-wide{
+  width:950px !important;
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}
+
+.swal2-popup{
+  width: 55em!important;
+}
+
+.swal2-header {
+  margin-top: 190px!important;
+}
+
+.title{
+  font-family: 'FS PFBeauSansPro';
+  font-weight:bold; 
+  font-size: 60px !important;
+}
+
+input{
+  padding: 5px 20px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
+
+.phone{
+  border: 1px solid #808080;
+  background-color: #f1f1f1;
+  color: #000;
+  height: 75px!important;
+  width: 70%!important;
+}
+
+.btnSubmit{
+  padding: 5px 20px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border: none;
+  background: red;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 45px;
+}
+
+.mt-5{
+  margin-top: 20px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.font{
+  font-family: 'FS PFBeauSansPro';
+}
+
+.font-size{
+  font-size: 42px;
+}
+
+.text-bold{
+  font-weight: bold;
+}
+
+.font-size-27{
+  margin-top: 20px;
+  font-size: 27pt;
+}
+
+.image{
+  background-repeat: no-repeat;
+  position: fixed;
+  top: -20%;
+  left: 10%;
+  z-index: 1080;
+}
+
+.swal2-styled.swal2-confirm {
+  font-family: 'FS PFBeauSansPro'!important;
+  padding: 5px 20px!important;
+  border-radius: 20px!important;
+  -moz-border-radius: 20px!important;
+  -webkit-border-radius: 20px!important;
+  height: 75px!important;
+  font-size: 32px!important;
+}
