@@ -144,3 +144,17 @@ input{
 .swal2-icon.swal2-success{
 	font-size: 1.8em;
 }
+
+.icon-fullscreen{
+  position: fixed!important;
+  top: 2%!important;
+  right: 3%!important;
+  z-index: 99!important;
+  color: #fff;
+}
+
+.icon-fullscreen:hover{
+  background-color: #f1f1f1;
+  color: #fff;
+  opacity: 0.5;
+}

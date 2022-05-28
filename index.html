@@ -60,6 +60,7 @@
             <!-- <div id="confetti-main">
 
             </div> -->
+            
         
         	<!-- BROWSER NOT SUPPORT START-->
         	<div id="notSupportHolder">
@@ -79,6 +80,10 @@
             <!-- ROTATE INSTRUCTION END-->
             
             <!-- CANVAS START-->
+            <!-- <button  class="icon-fullscreen">Open Video in Fullscreen Mode</button> -->
+            <div onclick="openFullscreen();" class="icon-fullscreen">
+                <img src="assets/fullscreen.png" width="30px" style="opacity: 0.4;"/>
+            </div>
             <div id="canvasHolder" class="js-container container">
                 <canvas id="gameCanvas" width="1080" height="1920"></canvas>
             </div>
@@ -91,7 +96,18 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
-        
+        <script>
+            var elem = document.getElementById("canvasHolder");
+            function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+            }
+        </script>
         <script src="js/vendor/detectmobilebrowser.js"></script>
         <script src="js/vendor/createjs.min.js"></script>
         <script src="js/vendor/p2.min.js"></script>
