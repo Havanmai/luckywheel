@@ -154,7 +154,7 @@ html{-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-user-select: none;-webki
 /*-- Canvas Wrapper -- */
 #canvasHolder{ display:none; width:100%; max-width:1080px; height: 100%;; margin:auto; position:relative; overflow: hidden;}
 canvas{ position:fixed; width: 100% !important;
-   height: 100% !important;
+   height: auto !important;
    top: 0 !important;
    left: 0 !important;}
 

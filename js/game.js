@@ -110,6 +110,7 @@ function buildGameButton(){
 	buttonStart.addEventListener("click", function(evt) {
 		getPercent();
 		playSound('soundClick');
+		buttonStart.visible=false;
 		startSpinWheel(true);
 		//memberpayment
 		/* if(typeof memberData != 'undefined' && memberSettings.enableMembership){
@@ -239,10 +240,12 @@ function goPage(page){
 		
 		case 'game':
 			targetContainer = mainContainer;
+	        buttonStart.visible=false;
 			startGame();
 		break;
 		
 		case 'result':
+			buttonStart.visible=true;
 			targetContainer = mainContainer;
 			playSound('soundResult');
 			const elem = document.querySelector("#canvasHolder");
