@@ -170,7 +170,7 @@ elem.addEventListener('resultSpin', (e) =>{
                       <p class="font font-size">Mã bí mật để mở tử đã được gửi đến</p>
                     </div>
                     <div clasa="text-center">
-                      <p class="font font-size text-bold">0968048661</p>
+                      <p class="font font-size text-bold">${result.value}</p>
                     </div>
                     <div clasa="text-center">
                       <p class="font font-size">Vui lòng kiểm tra tin nhắn của bạn</p>
