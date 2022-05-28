@@ -12,7 +12,7 @@ var enableFixedResult = false; //option to have fixed result by API, enabling th
 var enablePercentage = true; //option to have result base on percentage, enabling this will disable 2D physics engine
 
 var spinDirection = true; //true to spin right, false to spin left
-var spinSpeed = 16; //wheel spinning speed
+var spinSpeed = 20; //wheel spinning speed
 var touchSpin = true; //touch to spin (true/false)
 
 //status display text
@@ -245,8 +245,6 @@ function goPage(page){
 		case 'result':
 			targetContainer = mainContainer;
 			playSound('soundResult');
-			/* resultScoreTxt.text = resultScoreText.replace('[NUMBER]', addCommas(playerData.score)); */
-			console.log("Thống số thắng",playerData.score)
 			const elem = document.querySelector("#canvasHolder");
 			const resultSpin = new CustomEvent('resultSpin', {
 				detail: {
@@ -287,8 +285,6 @@ function startGame(){
 	//memberpayment
 	/* playerData.chance = gameData.startChance = gameChance; */
 	playerData.score = playerData.point = 0;
-	 console.log(playerData);
-	 console.log(gamePlayType);
 	if(gamePlayType){
 		chanceTxt.visible = true;
 		betTxt.visible = false;
@@ -794,8 +790,6 @@ function startSpinWheel(con){
 	if(gameData.spinning){
 		return;	
 	}
-	console.log(gameData);
-	console.log(gamePlayType);
 	/* if(gamePlayType){
 		if(playerData.chance <= 0){
 			return;	
@@ -838,10 +832,8 @@ function startSpinWheel(con){
 	
 	playSound('soundSpin');
 	playSoundLoop('soundSpinning');
-	console.log("Thông tin bắt đầu vòng quay",con)
 	if(con){
 		gameData.spinDirection = spinDirection;
-		console.log(spinDirection)
 		
 		if(!gameData.physicsEngine){
 			startSpinWheelBig();
@@ -948,11 +940,9 @@ function startSpinWheelBig(){
  * 
  */
 function startSpinWheelInner(){
-	console.log("secondWheel",secondWheel);
 	if(!secondWheel){
 		return;	
 	}
-	console.log("hshshshs",gameData.fixedInnerRotate)
 	wheelInnerContainer.rotation = 0;
 	var wheelInnerRadius = 360 / wheelSecond_arr.length;
 	var rotateNum = gameData.fixedInnerRotate;
@@ -964,7 +954,6 @@ function startSpinWheelInner(){
 		}
 	}
 
-	console.log("Vongf quay hangf trontg",rotateNum);
 	var innerNum = rotateNum;
 	if(!gameData.spinDirection){
 		rotateNum = wheelSecond_arr.length - rotateNum;
@@ -984,7 +973,6 @@ function startSpinWheelInner(){
 
 	TweenMax.to(wheelInnerContainer, totalRound, {rotation:toRotate, overwrite:true, ease: Circ.easeOut, onComplete:function(){
 		playSound('soundSelect');
-		console.log("soos been trong", innerNum);
 		gameData.wheelInnerNum = innerNum;
 		$.wheelInner[gameData.wheelInnerNum].visible = true;
 		animateWheelSegment($.wheelInner[gameData.wheelInnerNum], true);
@@ -1067,13 +1055,11 @@ function checkWheelScore(){
 	//gameData.wheelInnerNum = 1;
 	var wheelSegmentNumber = wheel_arr[gameData.wheelNum].point;
 	var wheelSegmentType = wheel_arr[gameData.wheelNum].type;
-	console.log("wheelArray",wheel_arr)
 	if(!gamePlayType){
 		/* playerData.score -= playerData.bet;
 		playerData.point = playerData.score; */
 		betData.betNumber = betData.betNumberPlus = 0;
 	}
-	console.log("playerData",playerData);
 	
 	TweenMax.to(playerData, 1, {overwrite:true, onComplete:function(){
 		playSound('soundTone');
@@ -1081,10 +1067,12 @@ function checkWheelScore(){
 			var wheelInnerSegmentNumber = wheelSecond_arr[gameData.wheelInnerNum].mutiply;
 			if(wheelSegmentType == 0){
 				//loss all
+				var winPoint =wheelInnerSegmentNumber.toString().concat(wheelSegmentNumber.toString()) ;
 				playSound('soundLossall');
 				animateLights('lose');
 				gameData.spinning = false;
 				gameData.shape.style = wheel_arr[gameData.wheelNum].color;
+				playerData.score = winPoint;
 				checkGameEnd();
 			}else{
 				var speedTween = .5;
@@ -1097,7 +1085,6 @@ function checkWheelScore(){
 							winPoint = winPoint.toString() ;
 						}
 
-						console.log("WinPoint shhshshs",winPoint)
 						
 						if((winPoint=="099")||(winPoint=="199")||(winPoint=="299")){
 							playSound('soundLoss');
@@ -1144,7 +1131,6 @@ function checkWheelScore(){
 				checkGameEnd();
 			}else{
 				var winPoint =wheelInnerSegmentNumber.toString().concat(wheelSegmentNumber.toString()) ;
-				console.log("WinPoint",winPoint)
 				if(!gamePlayType){
 					winPoint = winPoint.toString();
 				}
@@ -1160,7 +1146,6 @@ function checkWheelScore(){
 						updateStat();
 					}
 				}else{
-					console.log(winPoint)
 					//win
 					if(wheelSegmentType == 2){
 						playSound('soundJackpot');
@@ -1190,9 +1175,7 @@ function checkWheelScore(){
  * 
  */
 function checkGameEnd(){
-	console.log("DataChange EndGame", gamePlayType);
 	if(gamePlayType){
-		console.log("DataChange EndGame", playerData);
 		//memberpayment
 		if(typeof memberData != 'undefined' && memberSettings.enableMembership){
 			playerData.point = playerData.score;
@@ -1407,9 +1390,8 @@ var numberPercentBig=0;
 var numberPercentInner=0;
 function getPercent(){
  var resultArray = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","099","0100","199","1100","299","2100"];
-
-	console.log("hshshshsh",JSON.parse(localStorage.getItem('listArray')));
-	if(JSON.parse(localStorage.getItem('listArray'))){
+ 
+ if(JSON.parse(localStorage.getItem('listArray'))){
 	ArrayList = JSON.parse(localStorage.getItem('listArray'));
 		for(let i=0; i<ArrayList.length;i++){
 			for(let j=0; j<resultArray.length;j++){
@@ -1419,50 +1401,44 @@ function getPercent(){
 				}
 			}
 		}
-      console.log("resrsultArray",resultArray);
 	  var shuffleArray=shuffle(resultArray);
-	  console.log("Số random lần đầu tiên",shuffleArray[0])
 	  if(Number(shuffleArray[0]) < 10){
 		  numberPercentBig=(Number(shuffleArray[0]));
 		  numberPercentInner=0;
 	  }
 	  else if(Number(shuffleArray[0])<99){
 		  numberPercentBig=Number(shuffleArray[0])%10;
-		  numberPercentInner=(Number(shuffleArray[0])/10).toFixed();
+		  numberPercentInner=parseInt((Number(shuffleArray[0])/10));
 	  }
 	  else if((Number(shuffleArray[0])==99)||(Number(shuffleArray[0])==199)||(Number(shuffleArray[0])==299)){
 		  numberPercentBig=99;
-		  numberPercentInner=(Number(shuffleArray[0])/100).toFixed();
+		  numberPercentInner=parseInt((Number(shuffleArray[0])/100));
 	  }
 	  else if((Number(shuffleArray[0])==100)||(Number(shuffleArray[0])==1100)||(Number(shuffleArray[0])==2100)){
 		  numberPercentBig=100;
-		  numberPercentInner=(Number(shuffleArray[0])/1000).toFixed();
+		  numberPercentInner=parseInt((Number(shuffleArray[0])/1000));
 	  }
-  
-	  console.log("numberPercentBig",numberPercentBig,numberPercentInner)
 	  
 	  return shuffleArray[0];
 	}else{
 		var shuffleArray=shuffle(resultArray);
-		console.log("Số random lần đầu tiên",shuffleArray[0])
 		if(Number(shuffleArray[0]) < 10){
 			numberPercentBig=(Number(shuffleArray[0]));
 			numberPercentInner=0;
+
 		}
 		else if(Number(shuffleArray[0])<99){
 			numberPercentBig=Number(shuffleArray[0])%10;
-			numberPercentInner=(Number(shuffleArray[0])/10).toFixed();
+			numberPercentInner=parseInt((Number(shuffleArray[0])/10));
 		}
 		else if((Number(shuffleArray[0])==99)||(Number(shuffleArray[0])==199)||(Number(shuffleArray[0])==299)){
 			numberPercentBig=99;
-			numberPercentInner=(Number(shuffleArray[0])/100).toFixed();
+			numberPercentInner=parseInt((Number(shuffleArray[0])/100));
 		}
 		else if((Number(shuffleArray[0])==100)||(Number(shuffleArray[0])==1100)||(Number(shuffleArray[0])==2100)){
 			numberPercentBig=100;
-			numberPercentInner=(Number(shuffleArray[0])/1000).toFixed();
+			numberPercentInner=parseInt((Number(shuffleArray[0])/1000));
 		}
-	
-		console.log("numberPercentBig",numberPercentBig,numberPercentInner)
 		
 		return shuffleArray[0];
 	}
@@ -1474,7 +1450,6 @@ function getResultOnPercent(){
 	var bigplace;
 	for(var n=0; n<wheel_arr.length; n++){
 			if(numberPercentBig==wheel_arr[n].point){
-				console.log("numberPercentBig",wheel_arr[n].point,numberPercentBig)
 				bigplace=n;
 				break;
 			}
@@ -1554,10 +1529,8 @@ function getResultOnPercentInner(){
 	return gameData.percentageInnerArray[0]; */
 	
 	var innerplace;
-
 	for(var n=0; n<wheelSecond_arr.length; n++){
 			if(numberPercentInner == wheelSecond_arr[n].mutiply){
-				console.log("numberPercentInner",wheelSecond_arr[n].mutiply,numberPercentInner)
 				innerplace=n;
 				break;
 			}

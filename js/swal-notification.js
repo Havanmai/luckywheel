@@ -20,13 +20,38 @@ elem.addEventListener('resultSpin', (e) =>{
           'Đã hết phần thưởng',
           'error'
         )
-      } else if ((e.detail.score == 0)){
+      } else if ((e.detail.score == 0)||(e.detail.score == '099')||(e.detail.score == '199')||(e.detail.score == '299')){
         Swal.fire({
-            title: 'Chúc bạn may mắn lần sau',
-            text: 'Hẹn gặp bạn lần quay kế tiếp',
-            icon: 'error',
-            customClass: 'swal-wide',
-        })
+          title: 'Chúc bạn may mắn lần sau',
+          html: `
+          <div class="image-lost">
+              <img src="assets/lost.png"/>
+          </div>
+         `,
+          customClass: {
+            title:'title',
+            contentW:'swal-wide',
+        },
+        showCancelButton: false,
+        confirmButtonText: 'Đồng ý',
+        confirmButtonColor:'red',
+          showClass: {
+            popup: 'animate__animated animate__zoomIn',
+          
+          },
+          hideClass: {
+            popup: 'animate__animated animate__zoomOut'
+          },
+          
+          onOpen:()=>{
+              setTimeout(()=>{
+                  placeConfetti(55, 50);
+                  placeConfetti(50, 500);
+                  placeConfetti(166, 39);
+                  placeConfetti(100, 500);
+              },300)
+          }
+      })
  
       } 
       else if ((e.detail.score == '0100')||(e.detail.score == '1100')||(e.detail.score == '2100')){
@@ -34,10 +59,10 @@ elem.addEventListener('resultSpin', (e) =>{
           title: 'Chúc mừng bạn đã nhận được thêm một lượt quay nữa',
           html: `
           <div class="image">
-              <img src="../assets/box.png"/>
+              <img src="assets/box.png"/>
           </div>
          `,
-          icon: 'info',
+          icon: 'success',
           customClass: {
             title:'title',
             contentW:'swal-wide',
@@ -69,14 +94,15 @@ elem.addEventListener('resultSpin', (e) =>{
             <div class="image">
                 <img src="assets/box.png"/>
             </div>
-            <div style="color:red;  font-family: 'FS PFBeauSansPro'; font-weight:bold; font-size:135pt; text-align:center">${e.detail.score}</div>
+            <div style="color:red;  font-family: 'FS PFBeauSansPro'; font-weight:bold; font-size:11em; margin-top: -40px; text-align:center">${e.detail.score}</div>
             <div clasa="text-center">
-              <p class="font font-size">Vui lòng nhập số điện thoại để nhận mã phần thưởng</p>
+              <p class="font font-size" style=" width: 70%; margin: auto;" >Vui lòng nhập số điện thoại để nhận mã phần thưởng</p>
             </div>
            `,
-           input: 'text',
+           input: 'number',
+           inputPlaceholder:'Nhập số điện thoại',
             inputAttributes: {
-              autocapitalize: 'off'
+              autocapitalize: 'off',
             },
             icon: '',
             customClass: {
@@ -107,7 +133,7 @@ elem.addEventListener('resultSpin', (e) =>{
             }, 
             inputValidator: (value) => {
               return new Promise((resolve) => {
-                var vnf_regex = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+                var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
                 if ((!value)) 
                 {
                   resolve('Vui lòng nhập số điện thoại trước khi tiếp tục!')
@@ -123,18 +149,22 @@ elem.addEventListener('resultSpin', (e) =>{
           if (result.isConfirmed) {
             if (result.value) {
               $.ajax({
-                url: "https://box-api-dev.viettelpost.vn/services/smartlocker-order/public/gifts/gen-new",
-                type: "POST",
-                data:{
+                url: "https://box-api-dev.viettelpost.vn/services/smartlocker-order/api/public/gifts/gen-new",
+                headers: {
+                  'Content-Type':'application/json'
+               },
+                type: 'POST',
+                crossDomain: true,
+                json:"callback",            
+                data:JSON.stringify({
                   "phoneNumber": result.value,
                   "position": Number(e.detail.score)
-              },
-                dataType: "html",
+                }),
                 success: function () {
                   Swal.fire({
                     html: `
                     <div class="image">
-                        <img src="../assets/box.png"/>
+                        <img src="assets/box.png"/>
                     </div>
                     <div clasa="text-center">
                       <p class="font font-size">Mã bí mật để mở tử đã được gửi đến</p>
@@ -177,9 +207,9 @@ elem.addEventListener('resultSpin', (e) =>{
                 })
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                  Swal.fire(
-                    'Số điện thoại đã được sử dụng',
-                    'error'
+                  Swal.fire({
+                    timer:1000,
+                  }
                   )
                 }
             });

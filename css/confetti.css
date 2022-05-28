@@ -18,7 +18,12 @@
 }
 
 .swal2-popup{
-  width: 55em!important;
+  width: 90%!important;
+  border-radius:5em !important;
+}
+
+.swal2-title {
+	margin-bottom:0px !important;
 }
 
 .swal2-header {
@@ -31,6 +36,7 @@
   background-color: #f1f1f1!important;
   font-size: 32px!important;
   color: #000!important;
+  max-width: 90% !important;
 }
 
 .swal2-validation-message {
@@ -100,11 +106,19 @@ input{
 }
 
 .image{
-  background-repeat: no-repeat;
-  position: fixed;
-  top: -20%;
-  left: 10%;
-  z-index: 1080;
+  background-repeat: no-repeat!important;
+  position: fixed!important;
+  top: -20%!important;
+  left: 10%!important;
+  z-index: 1080!important;
+}
+
+.image-lost {
+  background-repeat: no-repeat!important;
+  position: fixed!important;
+  left: 40%!important;
+  top: 11%!important;
+  z-index: 1080!important;
 }
 
 .swal2-styled.swal2-confirm {
@@ -113,6 +127,20 @@ input{
   border-radius: 20px!important;
   -moz-border-radius: 20px!important;
   -webkit-border-radius: 20px!important;
-  height: 75px!important;
-  font-size: 32px!important;
+  font-size: 3em !important;
+	padding: 20px 60px !important;
+	margin: 40px auto;
+}
+
+.swal2-input.phone{
+	height: 2.5em !important;
+    width: 80% !important;
+    text-align: center;
+    font-size: 3em !important;
+    font-weight: 600;
+	margin: 1em auto 0.5em auto;
+}
+
+.swal2-icon.swal2-success{
+	font-size: 1.8em;
 }
