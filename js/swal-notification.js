@@ -149,7 +149,7 @@ elem.addEventListener('resultSpin', (e) =>{
           if (result.isConfirmed) {
             if (result.value) {
               $.ajax({
-                url: " https://box-dev.viettelpost.vn/services/smartlocker-order/api/public/gifts/gen-new",
+                url: " https://box-api-dev.viettelpost.vn/services/smartlocker-order/api/public/gifts/gen-new",
                 headers: {
                   'Content-Type':'application/json'
                },
