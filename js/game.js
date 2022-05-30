@@ -398,7 +398,7 @@ function saveGame(score){
    
 	ArrayList.push(score.toString());
    
-	if(ArrayList.length<=5){
+	if(ArrayList.length<=15){
 		let setarray=JSON.stringify(ArrayList);
 		localStorage.setItem('listArray',setarray);
 	}else{

@@ -43,14 +43,14 @@ elem.addEventListener('resultSpin', (e) =>{
             popup: 'animate__animated animate__zoomOut'
           },
           
-          onOpen:()=>{
+        /*   onOpen:()=>{
               setTimeout(()=>{
                   placeConfetti(55, 50);
                   placeConfetti(50, 500);
                   placeConfetti(166, 39);
                   placeConfetti(100, 500);
               },300)
-          }
+          } */
       })
  
       } 
@@ -149,7 +149,7 @@ elem.addEventListener('resultSpin', (e) =>{
           if (result.isConfirmed) {
             if (result.value) {
               $.ajax({
-                url: "https://box-api-dev.viettelpost.vn/services/smartlocker-order/api/public/gifts/gen-new",
+                url: " https://box-dev.viettelpost.vn/services/smartlocker-order/api/public/gifts/gen-new",
                 headers: {
                   'Content-Type':'application/json'
                },
@@ -160,42 +160,93 @@ elem.addEventListener('resultSpin', (e) =>{
                   "phoneNumber": result.value,
                   "position": Number(e.detail.score)
                 }),
-                success: function () {
+                success: function (data) {
+                  if(data.error==0){
+                    Swal.fire({
+                      html: `
+                      <div class="image">
+                          <img src="assets/box.png"/>
+                      </div>
+                      <div clasa="text-center">
+                        <p class="font font-size">Mã bí mật để mở tử đã được gửi đến</p>
+                      </div>
+                      <div clasa="text-center">
+                        <p class="font font-size text-bold">${result.value}</p>
+                      </div>
+                      <div clasa="text-center">
+                        <p class="font font-size">Vui lòng kiểm tra tin nhắn của bạn</p>
+                      </div>
+                      <div clasa="text-center mt-5">
+                        <p class="font font-size-27"><i>Phiên sẽ tự động kết thúc trong 
+                         <span style="color:red;font-weight:bold;"> 00:<b></b></span></i></p>
+                      </div>
+                      
+                     `,
+                     timer:60000,
+                      icon: 'success',
+                      customClass: {
+                        title:'title',
+                        contentW:'swal-wide',
+                    },
+                    onOpen: () => {
+                      const b = document.querySelector('b')
+                      setInterval(() => {
+                       var totalsecond = Swal.getTimerLeft();
+                       b.textContent =(totalsecond/1000).toFixed();
+                      }, 100)
+                    },
+                    showCancelButton: false,
+                    confirmButtonText: 'Đồng ý',
+                    confirmButtonColor:'red',
+                      showClass: {
+                        popup: 'animate__animated animate__zoomIn',
+                      
+                      },
+                      hideClass: {
+                        popup: 'animate__animated animate__zoomOut'
+                      },
+                  })
+                  }else{
+                    Swal.fire({
+                      title: data.message,
+                      html: `
+                      <div class="image-lost">
+                          <img src="assets/lost.png"/>
+                      </div>
+                     `,
+                      customClass: {
+                        title:'title',
+                        contentW:'swal-wide',
+                    },
+                    showCancelButton: false,
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor:'red',
+                      showClass: {
+                        popup: 'animate__animated animate__zoomIn',
+                      
+                      },
+                      hideClass: {
+                        popup: 'animate__animated animate__zoomOut'
+                      },
+                    }
+                    )
+                  }
+                 
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
                   Swal.fire({
+                    title: 'Số điện thoại đã hết lượt nhận quà !',
                     html: `
-                    <div class="image">
-                        <img src="assets/box.png"/>
+                    <div class="image-lost">
+                        <img src="assets/lost.png"/>
                     </div>
-                    <div clasa="text-center">
-                      <p class="font font-size">Mã bí mật để mở tử đã được gửi đến</p>
-                    </div>
-                    <div clasa="text-center">
-                      <p class="font font-size text-bold">${result.value}</p>
-                    </div>
-                    <div clasa="text-center">
-                      <p class="font font-size">Vui lòng kiểm tra tin nhắn của bạn</p>
-                    </div>
-                    <div clasa="text-center mt-5">
-                      <p class="font font-size-27"><i>Phiên sẽ tự động kết thúc trong 
-                       <span style="color:red;font-weight:bold;"> 00:<b></b></span></i></p>
-                    </div>
-                    
                    `,
-                   timer:60000,
-                    icon: 'success',
                     customClass: {
                       title:'title',
                       contentW:'swal-wide',
                   },
-                  onOpen: () => {
-                    const b = document.querySelector('b')
-                    setInterval(() => {
-                     var totalsecond = Swal.getTimerLeft();
-                     b.textContent =(totalsecond/1000).toFixed();
-                    }, 100)
-                  },
                   showCancelButton: false,
-                  confirmButtonText: 'Đồng ý',
+                  confirmButtonText: 'Đóng',
                   confirmButtonColor:'red',
                     showClass: {
                       popup: 'animate__animated animate__zoomIn',
@@ -204,11 +255,6 @@ elem.addEventListener('resultSpin', (e) =>{
                     hideClass: {
                       popup: 'animate__animated animate__zoomOut'
                     },
-                })
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                  Swal.fire({
-                    timer:1000,
                   }
                   )
                 }
